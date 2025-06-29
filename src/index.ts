@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
+import { calculate } from "./tools/sample.ts"
+import { consoleLog } from "./utils/log.ts"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 export class MyMCP extends McpAgent {
@@ -18,47 +20,10 @@ export class MyMCP extends McpAgent {
 				b: z.number()
 			},
 			async ({ operation, a, b,}) => {
-				try {
-					const processId = this.props.processId;
-
-					// userID & secret key
-					const userId: string | null = this.props.userId as string;
-					const secretKey: string | null  = this.props.secretKey as string;
-					console.log(`[${processId}] UserID: ${userId}`);
-					console.log(`[${processId}] SecretKey: ${secretKey}`);
-
-					// calc operation
-					let result: number = 0;
-					switch (operation) {
-						case "add":
-							result = a + b;
-							break;
-						case "subtract":
-							result = a - b;
-							break;
-						case "multiply":							
-							result = a * b;
-							break;
-						case "divide":
-							if (b === 0)
-								return {
-									content: [
-										{
-											type: "text",
-											text: "Error: Cannot divide by zero",
-										},
-									],
-								};
-							result = a / b;
-							break;
-					}
-					console.log(`[${processId}] result: ${result}`);
-					return { content: [{ type: "text", text: String(result) }] };
-				// error handling
-				} catch (error: any) {
-					console.error("ERROR:", error);
-					return { content: [{ type: "text", text: JSON.stringify({ status: "error", error_message: error.message }) }], isError: true };
-				}
+				const processId = this.props.processId as string;
+				const userId: string | null = this.props.userId as string;
+				const secretKey: string | null = this.props.secretKey as string;
+				return calculate(processId, userId, secretKey, operation, a, b);
 			}
 		);
 	}
