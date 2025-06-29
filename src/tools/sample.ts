@@ -13,7 +13,6 @@ export async function calculate(
         consoleLog(processId, userId as string);
         consoleLog(processId, secretKey as string);
 
-        // calc operation
         let result: number = 0;
         switch (operation) {
             case "add":
@@ -32,7 +31,9 @@ export async function calculate(
                 break;
         }
 
+        // response
         return handleSuccess(processId, String(result));
+
     // error handling
     } catch (error: any) {
         return handleError(processId, error.message);

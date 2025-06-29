@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
 import { calculate } from "./tools/sample.ts"
-import { consoleLog } from "./utils/log.ts"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 export class MyMCP extends McpAgent {
@@ -20,10 +19,7 @@ export class MyMCP extends McpAgent {
 				b: z.number()
 			},
 			async ({ operation, a, b,}) => {
-				const processId = this.props.processId as string;
-				const userId: string | null = this.props.userId as string;
-				const secretKey: string | null = this.props.secretKey as string;
-				return calculate(processId, userId, secretKey, operation, a, b);
+				return calculate(this.props.processId as string, this.props.userId as string, this.props.secretKey as string, operation, a, b);
 			}
 		);
 	}
