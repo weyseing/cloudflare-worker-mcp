@@ -18,4 +18,7 @@ RUN npm install
 # app files
 COPY . .
 
-CMD ["tail", "-f", "/dev/null"]
+# entrypoint
+COPY docker-entrypoint.sh .
+RUN chmod +x docker-entrypoint.sh
+CMD ["./docker-entrypoint.sh"]
