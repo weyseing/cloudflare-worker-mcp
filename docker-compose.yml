@@ -1,0 +1,18 @@
+services:
+  onboarding_mcp:
+    container_name: onboarding_mcp
+    build: .
+    env_file: .env
+    ports:
+      - "8787:8787"
+    volumes:
+      - .:/usr/src/app
+    networks:
+      aws_molpay:
+      aliyun_molpay:
+
+networks:
+  aws_molpay:
+    external: true
+  aliyun_molpay:
+    external: true
