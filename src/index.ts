@@ -34,6 +34,9 @@ export default {
 		const userId: string | null = request.headers.get('X-UserID');
 		const secretKey: string | null  = request.headers.get('X-SecretKey');
 
+		// env
+		console.log(env);
+
 		// context
 		ctx.props = { processId, userId, secretKey };
 
