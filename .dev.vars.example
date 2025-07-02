@@ -1,0 +1,6 @@
+# MLSpace
+MLSPACE_ENDPOINT="http://ml_api:8000"
+
+# error email
+MLSPACE_NOTIFY_KEY="123"
+DEV_EMAIL="jeremy.heng@fiuu.com,mardhiah.nasri@fiuu.com,yungqi.chin@fiuu.com"
