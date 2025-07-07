@@ -1,18 +1,17 @@
-import { consoleLog } from "../utils/Log.ts"
-import { getAccessToken } from "../utils/Auth.ts"
-import { handleError, handleSuccess } from "../utils/ResultHandler.ts"
+import { consoleLog } from "../utils/log.ts"
+import { handleError, handleSuccess } from "../utils/resultHandler.ts"
 
 export async function calculate(
-    env: Record<string, any>,
-    props: Record<string, any>,
+    processId: string,
+    userId: string | null,
+    secretKey: string | null,
     operation: string,
     a: number,
     b: number
 ): Promise<any> {
     try {
-        // get token
-        const bearerToken = await getAccessToken(env, props.processId, props.userId, props.secretKey);
-        consoleLog(props.processId, "Onboarind API token: " + bearerToken);
+        consoleLog(processId, userId as string);
+        consoleLog(processId, secretKey as string);
 
         let result: number = 0;
         switch (operation) {
@@ -26,15 +25,17 @@ export async function calculate(
                 result = a * b;
                 break;
             case "divide":
+                if (b === 0)
+                    return handleError(processId, "Cannot divide by zero");
                 result = a / b;
                 break;
         }
 
         // response
-        return handleSuccess(props.processId, String(result));
+        return handleSuccess(processId, String(result));
 
     // error handling
     } catch (error: any) {
-        return handleError(env, props.processId, error);
+        return handleError(processId, error.message);
     }
 }
