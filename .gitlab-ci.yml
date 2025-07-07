@@ -8,7 +8,7 @@ Deploy Cloudflare:
   stage: deploy
   image: node:24.3.0-slim
   script:
-    - npm install
+    - npm install wrangler
     - npm list
     - npm run deploy
   tags:
