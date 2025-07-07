@@ -2,6 +2,7 @@ services:
   onboarding_mcp:
     container_name: onboarding_mcp
     build: .
+    env_file: .env
     ports:
       - "8787:8787" # mcp server
       - "6274:6274" # mcp inspector (client)

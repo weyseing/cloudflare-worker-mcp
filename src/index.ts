@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
-import { calculate } from "./tools/sample.ts"
+import { consoleLog } from "./utils/Log.ts"
+import { calculate } from "./tools/example.ts"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
-export class MyMCP extends McpAgent {
+export class MyMCP extends McpAgent< Record<string, any> > {
 	server = new McpServer({
 		name: "Onboarding API MCP",
 		version: "1.0.0",
@@ -19,7 +20,7 @@ export class MyMCP extends McpAgent {
 				b: z.number()
 			},
 			async ({ operation, a, b,}) => {
-				return calculate(this.props.processId as string, this.props.userId as string, this.props.secretKey as string, operation, a, b);
+				return calculate(this.env, this.props, operation, a, b);
 			}
 		);
 	}
@@ -34,10 +35,7 @@ export default {
 		const userId: string | null = request.headers.get('X-UserID');
 		const secretKey: string | null  = request.headers.get('X-SecretKey');
 
-		// env
-		console.log(env);
-
-		// context
+		// props
 		ctx.props = { processId, userId, secretKey };
 
 		// routing

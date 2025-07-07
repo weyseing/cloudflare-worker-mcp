@@ -1,6 +1,12 @@
+# enable error email
+ENABLE_ERR_EMAIL=FALSE
+
 # MLSpace
-MLSPACE_ENDPOINT="http://ml_api:8000"
+MLSPACE_ENDPOINT=http://ml_api:8000
 
 # error email
-MLSPACE_NOTIFY_KEY="123"
-DEV_EMAIL="jeremy.heng@fiuu.com,mardhiah.nasri@fiuu.com,yungqi.chin@fiuu.com"
+MLSPACE_NOTIFY_KEY=123
+AIOPS_EMAIL=jeremy.heng@fiuu.com,mardhiah.nasri@fiuu.com,yungqi.chin@fiuu.com,kahchun.lang@fiuu.com,weeteng.soh@fiuu.com
+
+# onboarding API
+ONBOARDING_API=https://uat-onboarding.fiuu.com
