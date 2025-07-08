@@ -12,7 +12,7 @@ export async function calculate(
     try {
         // get token
         const bearerToken = await getAccessToken(env, props.processId, props.userId, props.secretKey);
-        consoleLog(props.processId, "Onboarind API token: " + bearerToken);
+        consoleLog(props.processId, "Onboaring API token: " + bearerToken);
 
         let result: number = 0;
         switch (operation) {
