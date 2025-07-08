@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
 import { consoleLog } from "./utils/Log.ts"
-import { calculate } from "./tools/example.ts"
+import { calculate } from "./tools/Example.ts"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 export class MyMCP extends McpAgent< Record<string, any> > {
