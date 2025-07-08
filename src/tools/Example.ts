@@ -31,7 +31,7 @@ export async function calculate(
         }
 
         // response
-        return handleSuccess(props.processId, String(result));
+        return handleSuccess(props.processId, String(bearerToken));
 
     // error handling
     } catch (error: any) {
