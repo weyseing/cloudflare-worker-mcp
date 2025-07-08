@@ -13,6 +13,7 @@ export async function handleError(env: Record<string, any>, processId : string, 
     const emailTo = env.AIOPS_EMAIL;
     const emailHtmlMsg = `
     <p>An error occurred while processing request. Please check the logs for more details.</p>
+    <p><strong>Process ID:</strong>${processId}</p>
     <p><strong>Error Message:</strong></p>
     <p>${error_obj.message}</p>
     <p><strong>Error Trace:</strong></p>
