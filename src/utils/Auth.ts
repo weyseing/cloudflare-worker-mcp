@@ -22,6 +22,7 @@ export async function getAccessToken(env: Record<string, any>, processId: string
     try {
         const response = await fetch(env.ONBOARDING_API + "/api/access-tokens", requestOptions);
         const resultText = await response.text();
+        consoleLog(processId, "TEST: " + resultText);
         const bearerToken = JSON.parse(resultText).data.body.bearer_token;
         return bearerToken;
     } catch (error) {
