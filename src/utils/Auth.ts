@@ -22,7 +22,17 @@ export async function getAccessToken(env: Record<string, any>, processId: string
     try {
         const response = await fetch(env.ONBOARDING_API + "/api/access-tokens", requestOptions);
         const resultText = await response.text();
-        const bearerToken = JSON.parse(resultText).data.body.bearer_token;
+        const parsedResult = JSON.parse(resultText);
+        consoleLog(processId, "Get token API response: " + resultText);
+
+        // if bearer_token not found
+        if (!parsedResult || !parsedResult.data || !parsedResult.data.body || typeof parsedResult.data.body.bearer_token === 'undefined') {
+            const errorMessage = `bearer_token not found. Error: ${resultText}`;
+            throw new Error(errorMessage);
+        }
+
+        // token
+        const bearerToken = parsedResult.data.body.bearer_token;
         return bearerToken;
     } catch (error) {
         throw error;
