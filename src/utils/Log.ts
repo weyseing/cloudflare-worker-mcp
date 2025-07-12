@@ -1,3 +1,7 @@
+import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
+
+const SOURCE_FILE_MAP = null;
+
 export function consoleLog(processId: string, log_msg : string) {
     const timestamp = new Date().toLocaleString();
     console.log(`[APP_LOG] ${timestamp} - ${processId} - ${log_msg}`);

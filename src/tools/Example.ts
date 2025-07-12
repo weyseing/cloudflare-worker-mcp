@@ -1,8 +1,9 @@
 import { consoleLog } from "../utils/Log.ts"
 import { getAccessToken } from "../utils/Auth.ts"
+import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
 import { handleError, handleSuccess } from "../utils/ResultHandler.ts"
 
-const SOURCE_FILE_MAP = {};
+const SOURCE_FILE_MAP = null;
 
 export async function calculate(
     env: Record<string, any>,
@@ -37,6 +38,7 @@ export async function calculate(
 
     // error handling
     } catch (error: any) {
+        (error as any).sourceFileMaps = [...((error as any).sourceFileMaps ?? []), { function: getCurrentFunctionName(), file: SOURCE_FILE_MAP }];
         return handleError(env, props.processId, error);
     }
 }

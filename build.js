@@ -1,42 +1,32 @@
-const esbuild = require('esbuild');
 const path = require('path');
 const fs = require('fs/promises');
+const esbuild = require('esbuild');
 
-// Esbuild plugin to inject the current file's name/path into SOURCE_FILE_MAP in each .ts file
 const sourceFileMapPlugin = {
   name: 'source-file-map-plugin',
   setup(build) {
-    // Intercept all .ts files
+    // intercept all .ts files
     build.onResolve({ filter: /\.ts$/ }, (args) => {
-      // Resolve to absolute path to avoid ENOENT
-      const absolutePath = path.resolve(args.resolveDir, args.path);
       return {
-        path: absolutePath,
+        path: path.resolve(args.resolveDir, args.path),
         namespace: 'source-map-ns',
       };
     });
-
-    build.onLoad({ filter: /.*/, namespace: 'source-map-ns' }, async (args) => {
-      const contents = await fs.readFile(args.path, 'utf8');
-
-      // Get the relative path of this file (e.g., 'src/tools/Example.ts')
+    
+    build.onLoad({ filter: /\.ts$/, namespace: 'source-map-ns' }, async (args) => {
       const thisFilePath = path.relative(__dirname, args.path);
 
-      // Create a simple map with this file's path
-      const fileMap = {
-        thisFile: thisFilePath,
-      };
-
-      // Inject the map into the code (replace the placeholder if it exists)
-      const transformed = contents.replace(
-        /const SOURCE_FILE_MAP = {};/,
-        `const SOURCE_FILE_MAP = ${JSON.stringify(fileMap, null, 2)};`
+      // set SOURCE_FILE_MAP in content
+      const contents = await fs.readFile(args.path, 'utf8');
+      const transformedContent = contents.replace(
+        /const SOURCE_FILE_MAP = null;/,
+        `const SOURCE_FILE_MAP = "${thisFilePath}";`
       );
 
       return {
-        contents: transformed,
-        loader: 'ts',  // Treat as TypeScript
-        resolveDir: path.dirname(args.path),  // Preserve the original directory for relative imports
+        contents: transformedContent,
+        loader: 'ts',
+        resolveDir: path.dirname(args.path),
       };
     });
   },
@@ -52,5 +42,5 @@ esbuild.build({
   minify: false, 
   external: ['cloudflare:workers', 'async_hooks'],
   format: 'esm',
-  plugins: [sourceFileMapPlugin],  // Add the plugin
+  plugins: [sourceFileMapPlugin],
 }).catch(() => process.exit(1)); 

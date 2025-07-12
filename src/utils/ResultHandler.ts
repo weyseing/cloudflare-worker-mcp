@@ -1,5 +1,8 @@
 import { sendEmail } from "./Notification.ts";
 import { consoleError, consoleLog } from "./Log.ts";
+import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
+
+const SOURCE_FILE_MAP = null;
 
 export function handleSuccess(processId : string, message : string) {
     // log & response
@@ -18,11 +21,13 @@ export async function handleError(env: Record<string, any>, processId : string, 
     <p>${error_obj.message}</p>
     <p><strong>Error Trace:</strong></p>
     <pre style="background-color: #f8f8f8; padding: 10px; border: 1px solid #ccc;">${error_obj.stack}</pre>
+    <p><strong>Source Map:</strong></p>
+    <p>${JSON.stringify(error_obj.sourceFileMaps)}</p>
     `;
     await sendEmail(env, processId, emailSubject, emailHtmlMsg, emailTo);
     // log & response
     consoleError(processId, "Error Message: " + error_obj.message);
     consoleError(processId, "Error Trace: " + error_obj.stack);
-    consoleError(processId, "Source Map: " + JSON.stringify(error_obj.sourceFileMap));
+    consoleError(processId, "Source Map: " + JSON.stringify(error_obj.sourceFileMaps));
     return { content: [{ type: "text", text: JSON.stringify({ status: "error", error_message: error_obj.message }) }] };
 }

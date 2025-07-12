@@ -1,6 +1,7 @@
-import { consoleError, consoleLog } from "./Log.ts";
+import { consoleError, consoleLog, testError } from "./Log.ts";
+import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
 
-const SOURCE_FILE_MAP = {};
+const SOURCE_FILE_MAP = null;
 
 export async function getAccessToken(env: Record<string, any>, processId: string, userId: string, secretKey: string): Promise<string | undefined> {
     // header
@@ -37,7 +38,7 @@ export async function getAccessToken(env: Record<string, any>, processId: string
         const bearerToken = parsedResult.data.body.bearer_token;
         return bearerToken;
     } catch (error) {
-        (error as any).sourceFileMap = (SOURCE_FILE_MAP as any)?.thisFile;
+        (error as any).sourceFileMaps = [...((error as any).sourceFileMaps ?? []), { function: getCurrentFunctionName(), file: SOURCE_FILE_MAP }];
         throw error;
     }
 }

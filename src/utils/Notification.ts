@@ -1,4 +1,7 @@
 import { consoleError, consoleLog } from "./Log.ts";
+import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
+
+const SOURCE_FILE_MAP = null;
 
 export async function sendEmail(env: Record<string, any>, processId : string, subject: string, msg: string, toEmail: string) {
     // check enable env
