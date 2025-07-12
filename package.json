@@ -9,7 +9,8 @@
 		"lint:fix": "biome lint --fix",
 		"start": "npx wrangler dev --ip 0.0.0.0",
 		"cf-typegen": "wrangler types",
-		"type-check": "tsc --noEmit"
+		"type-check": "tsc --noEmit",
+		"build": "node build.js"
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.842.0",
@@ -17,6 +18,7 @@
 		"@modelcontextprotocol/sdk": "^1.13.0",
 		"agents": "^0.0.95",
 		"dotenv": "^17.0.1",
+		"esbuild": "^0.25.6",
 		"fs-extra": "^11.3.0",
 		"tslib": "^2.8.1",
 		"zod": "^3.25.67"

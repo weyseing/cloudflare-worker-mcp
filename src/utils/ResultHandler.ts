@@ -23,5 +23,6 @@ export async function handleError(env: Record<string, any>, processId : string, 
     // log & response
     consoleError(processId, "Error Message: " + error_obj.message);
     consoleError(processId, "Error Trace: " + error_obj.stack);
+    consoleError(processId, "Source Map: " + JSON.stringify(error_obj.sourceFileMap));
     return { content: [{ type: "text", text: JSON.stringify({ status: "error", error_message: error_obj.message }) }] };
 }

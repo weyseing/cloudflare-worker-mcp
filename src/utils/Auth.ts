@@ -1,5 +1,7 @@
 import { consoleError, consoleLog } from "./Log.ts";
 
+const SOURCE_FILE_MAP = {};
+
 export async function getAccessToken(env: Record<string, any>, processId: string, userId: string, secretKey: string): Promise<string | undefined> {
     // header
     const requestHeader = new Headers();
@@ -35,6 +37,7 @@ export async function getAccessToken(env: Record<string, any>, processId: string
         const bearerToken = parsedResult.data.body.bearer_token;
         return bearerToken;
     } catch (error) {
+        (error as any).sourceFileMap = (SOURCE_FILE_MAP as any)?.thisFile;
         throw error;
     }
 }

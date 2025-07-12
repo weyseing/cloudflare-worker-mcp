@@ -2,6 +2,8 @@ import { consoleLog } from "../utils/Log.ts"
 import { getAccessToken } from "../utils/Auth.ts"
 import { handleError, handleSuccess } from "../utils/ResultHandler.ts"
 
+const SOURCE_FILE_MAP = {};
+
 export async function calculate(
     env: Record<string, any>,
     props: Record<string, any>,

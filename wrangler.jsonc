@@ -5,7 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "onboarding-mcp",
-	"main": "src/index.ts",
+	"main": "dist/worker.js",
 	"compatibility_date": "2025-03-10",
 	"compatibility_flags": [
 		"nodejs_compat"
@@ -33,6 +33,9 @@
 	"logpush": true,
 	"keep_vars": true,
 	"upload_source_maps": true,
+	"build": {
+		"command": "npm run build"
+	}
 	
 	/**
 	 * Smart Placement
