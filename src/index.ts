@@ -1,15 +1,11 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
-import { consoleLog } from "./utils/Log.ts"
-import { getApplicationList, getAppByID } from "./tools/ApplicationListing.ts"
-import { getCurrentFunctionName } from "./utils/FunctionUtils.ts"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-
-const SOURCE_FILE_MAP = null;
+import { getApplicationList, getAppByID } from "./tools/ApplicationListing.ts"
 
 export class MyMCP extends McpAgent< Record<string, any> > {
 	server = new McpServer({
-		name: "Fiuu Onboarding API MCP",
+		name: "Fiuu Onboarding MCP",
 		version: "1.0.0",
 		description: "MCP server for Fiuu merchant onboarding operations. Provides tools to retrieve, create, and manage merchant account applications.",
 		capabilities: {
