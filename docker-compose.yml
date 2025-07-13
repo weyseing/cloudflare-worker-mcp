@@ -1,20 +1,15 @@
 services:
-  onboarding_mcp:
-    container_name: onboarding_mcp
+  cloudflare_mcp:
+    container_name: cloudflare_mcp
     build: .
     env_file: .env
     ports:
-      - "8787:8787" # mcp server
-      # - "6274:6274" # mcp inspector (client)
-      # - "6277:6277" # mcp inspector (server)
+      - "8787:8787" 
     volumes:
       - .:/usr/src/app
     networks:
-      aws_molpay:
-      aliyun_molpay:
+      global-net:
 
 networks:
-  aws_molpay:
-    external: true
-  aliyun_molpay:
+  global-net:
     external: true

@@ -17,10 +17,10 @@ export async function getUserByID(
         consoleLog(props.processId, "App ID: " + userID);
 
         // token
-        const url = await getURL(props, env);
+        const url = await getURL(env, props);
 
         // call API
-        const response = await fetch(url.endpoint + "/" + userID, {
+        const response = await fetch(url.endpoint + "/users/" + userID, {
             method: 'GET',
             headers: {'accept': 'application/json'}
         });

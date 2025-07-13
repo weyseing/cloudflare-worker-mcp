@@ -1,26 +1,21 @@
-import { consoleLog } from "./Log.ts";
-import { getCurrentFunctionName } from "./FunctionUtils.ts";
+import { consoleError, consoleLog } from "./Log.ts";
+import { getCurrentFunctionName } from "./FunctionUtils.ts"
 
 const SOURCE_FILE_MAP = null;
 
-export async function functionTemplate(
+export async function getURL(
     env: Record<string, any>,
-    props: Record<string, any>,
-    param1: string,
-    param2: number
+    props: Record<string, any>
 ): Promise<any> {
     try {
         // logging
-        consoleLog(props.processId, "UserID: " + props.userId);
-        consoleLog(props.processId, "Param1: " + param1);
-        consoleLog(props.processId, "Param2: " + param2);
+        consoleLog(props.processId, "env: " + JSON.stringify(env));
+        consoleLog(props.processId, "props: " + JSON.stringify(props));
         
         // function logic
         const result = {
             status: "success",
-            message: "Function completed successfully",
-            userId: props.userId,
-            timestamp: new Date().toISOString(),
+            endpoint: env.TESTING_API,
         };
         // check error
         if (result.status != "success") 
@@ -28,8 +23,8 @@ export async function functionTemplate(
 
         // return
         consoleLog(props.processId, "Function result: " + JSON.stringify(result));
-        return {success: true, data: result};
-    } catch (error: any) {
+        return result;
+    } catch (error) {
         (error as any).sourceFileMaps = [...((error as any).sourceFileMaps ?? []), { function: getCurrentFunctionName(), file: SOURCE_FILE_MAP }];
         throw error;
     }

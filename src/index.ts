@@ -1,37 +1,28 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { getApplicationList, getAppByID } from "./tools/ApplicationListing.ts"
+import { getUserByID } from "./tools/UserListing.ts"
 
 export class MyMCP extends McpAgent< Record<string, any> > {
 	server = new McpServer({
-		name: "Fiuu Onboarding MCP",
+		name: "MCP Name...",
 		version: "1.0.0",
-		description: "MCP server for Fiuu merchant onboarding operations. Provides tools to retrieve, create, and manage merchant account applications.",
+		description: "MCP description...",
 		capabilities: {
 			tools: {}
 		},
-		homepageUrl: "https://fiuu-onboarding.readme.io"
+		homepageUrl: "Documentation url..."
 	});
 
 	async init() {
 		this.server.tool(
-			"list_applications",
-			"Provides an organized overview of all received applications. Retrieves application data from the database and presents it in a structured format for easy viewing.",
-			{},
-			async ({}) => {
-				return getApplicationList(this.env, this.props);
-			}
-		);
-
-		this.server.tool(
-			"get_application",
-			"Retrieves information on a specific merchant account application by application ID. Returns detailed application data including status, submission details, and processing information.",
+			"get_user",
+			"Retrieves todo information from API.",
 			{
-				applicationID: z.string().describe("The unique identifier of the application to retrieve")
+				userID: z.string().describe("The unique identifier of the user to retrieve")
 			},
-			async ({ applicationID }) => {
-				return getAppByID(this.env, this.props, applicationID);
+			async ({ userID }) => {
+				return getUserByID(this.env, this.props, userID);
 			}
 		);
 	}
