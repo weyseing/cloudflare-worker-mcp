@@ -1,5 +1,3 @@
-import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
-
 const SOURCE_FILE_MAP = null;
 
 export function consoleLog(processId: string, log_msg : string) {

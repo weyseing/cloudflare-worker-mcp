@@ -1,5 +1,4 @@
 import { consoleError, consoleLog } from "./Log.ts";
-import { getCurrentFunctionName } from "../utils/FunctionUtils.ts"
 
 const SOURCE_FILE_MAP = null;
 

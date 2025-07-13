@@ -17,15 +17,18 @@ export async function functionTemplate(
         
         // function logic
         const result = {
+            status: "success",
             message: "Function completed successfully",
             userId: props.userId,
             timestamp: new Date().toISOString(),
         };
+        // check error
+        if (result.status != "success") 
+            throw new Error(`Error: ${result}`);
 
         // return
         consoleLog(props.processId, "Function result: " + JSON.stringify(result));
         return {success: true, data: result};
-
     } catch (error: any) {
         (error as any).sourceFileMaps = [...((error as any).sourceFileMaps ?? []), { function: getCurrentFunctionName(), file: SOURCE_FILE_MAP }];
         throw error;
