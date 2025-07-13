@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { McpAgent } from "agents/mcp";
 import { consoleLog } from "./utils/Log.ts"
-import { calculate } from "./tools/Example.ts"
+import { getApplicationList, getAppByID } from "./tools/ApplicationListing.ts"
 import { getCurrentFunctionName } from "./utils/FunctionUtils.ts"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
@@ -9,21 +9,33 @@ const SOURCE_FILE_MAP = null;
 
 export class MyMCP extends McpAgent< Record<string, any> > {
 	server = new McpServer({
-		name: "Onboarding API MCP",
+		name: "Fiuu Onboarding API MCP",
 		version: "1.0.0",
+		description: "MCP server for Fiuu merchant onboarding operations. Provides tools to retrieve, create, and manage merchant account applications.",
+		capabilities: {
+			tools: {}
+		},
+		homepageUrl: "https://fiuu-onboarding.readme.io"
 	});
 
 	async init() {
 		this.server.tool(
-			"calculate",
-			"Performs basic arithmetic operations (add, subtract, multiply, divide) on two numbers.",
+			"list_applications",
+			"Provides an organized overview of all received applications. Retrieves application data from the database and presents it in a structured format for easy viewing.",
+			{},
+			async ({}) => {
+				return getApplicationList(this.env, this.props);
+			}
+		);
+
+		this.server.tool(
+			"get_application",
+			"Retrieves information on a specific merchant account application by application ID. Returns detailed application data including status, submission details, and processing information.",
 			{
-				operation: z.enum(["add", "subtract", "multiply", "divide"]),
-				a: z.number(),
-				b: z.number()
+				applicationID: z.string().describe("The unique identifier of the application to retrieve")
 			},
-			async ({ operation, a, b,}) => {
-				return calculate(this.env, this.props, operation, a, b);
+			async ({ applicationID }) => {
+				return getAppByID(this.env, this.props, applicationID);
 			}
 		);
 	}
